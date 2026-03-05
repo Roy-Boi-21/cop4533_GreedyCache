@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    Cache example = Cache(3, "FIFO");
+    Cache example = Cache(3, "LRU");
 
     example.accessItem(1);
     example.accessItem(2);
@@ -13,6 +13,7 @@ int main() {
     example.accessItem(1);
     example.accessItem(1);
     example.accessItem(1);
+    example.accessItem(3);
     example.display();
 
     example.accessItem(4);

@@ -19,7 +19,16 @@ int Cache::FIFO() {
 }
 
 int Cache::LRU() {
-    throw exception();  // TODO
+    int remove_index = -1;
+    int oldest_access = -2147483648;
+    for (int i = 0; i < raw_cache.size(); i++) {
+        int current_access = raw_cache[i].get_access();
+        if (current_access > oldest_access) {
+            oldest_access = current_access;
+            remove_index = i;
+        }
+    }
+    return remove_index;
 }
 
 int Cache::OPTFF() {
