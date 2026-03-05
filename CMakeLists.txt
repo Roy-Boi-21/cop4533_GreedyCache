@@ -7,4 +7,6 @@ add_executable(GreedyCache src/main.cpp
         src/Cache.cpp
         src/Cache.h
         src/Item.cpp
-        src/Item.h)
+        src/Item.h
+        src/utilities.cpp
+        src/utilities.h)
