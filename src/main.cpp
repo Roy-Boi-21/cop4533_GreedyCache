@@ -53,7 +53,7 @@ int main() {
     } else if (choice == "2") {
         data = read_from_file();
     } else if (choice == "3") {
-        throw exception();  // TODO
+        data = generate_data();
     }
 
     Cache cache = Cache(get<0>(data), algorithm);

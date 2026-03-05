@@ -13,7 +13,7 @@ tuple<int, vector<int>> read_manually() {
             cin >> input;
             cache_capacity = stoi(input);
         } catch (...) {
-            cout << "Invalid input.  Please enter an integer." << endl;
+            cout << "Invalid input.  Please enter a positive integer." << endl;
         }
     }
 
@@ -25,7 +25,7 @@ tuple<int, vector<int>> read_manually() {
             cin >> input;
             request_count = stoi(input);
         } catch (...) {
-            cout << "Invalid input.  Please enter an integer." << endl;
+            cout << "Invalid input.  Please enter a positive integer." << endl;
         }
     }
 
@@ -88,6 +88,55 @@ tuple<int, vector<int>> read_from_file() {
 
     if (request_count != stream.size()) {
         throw exception();
+    }
+
+    return {cache_capacity, stream};
+}
+
+tuple<int, vector<int>> generate_data() {
+    int cache_capacity = -1;
+    while (cache_capacity < 0) {
+        try {
+            string input;
+            cout << "What is the size of the cache?" << endl;
+            cin >> input;
+            cache_capacity = stoi(input);
+        } catch (...) {
+            cout << "Invalid input.  Please enter a positive integer." << endl;
+        }
+    }
+
+    int request_count = -1;
+    while (request_count < 0) {
+        try {
+            string input;
+            cout << "How many requests will the cache receive?" << endl;
+            cin >> input;
+            request_count = stoi(input);
+        } catch (...) {
+            cout << "Invalid input.  Please enter a positive integer." << endl;
+        }
+    }
+
+    int upper_bound = -1;
+    while (upper_bound < 1) {
+        try {
+            string input;
+            cout << "What should be the upper bound of inputs be?  (1 to X)" << endl;
+            cin >> input;
+            upper_bound = stoi(input);
+
+        } catch (...) {
+            cout << "Invalid input.  Please enter an integer greater than or equal to 1." << endl;
+        }
+    }
+
+    srand((unsigned) time(nullptr));
+    vector<int> stream;
+    stream.reserve(request_count);
+
+    for (int i = 0; i < request_count; i++) {
+        stream.emplace_back((rand() % upper_bound) + 1);
     }
 
     return {cache_capacity, stream};
