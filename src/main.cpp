@@ -51,7 +51,7 @@ int main() {
     if (choice == "1") {
         data = read_manually();
     } else if (choice == "2") {
-        throw exception();  // TODO
+        data = read_from_file();
     } else if (choice == "3") {
         throw exception();  // TODO
     }
@@ -63,22 +63,6 @@ int main() {
         cache.accessItem(item);
     }
     cache.display();
-
-    /*Cache example = Cache(3, algorithm);
-
-    example.accessItem(1);
-    example.accessItem(2);
-    example.accessItem(3);
-    example.display();
-
-    example.accessItem(1);
-    example.accessItem(1);
-    example.accessItem(1);
-    example.accessItem(3);
-    example.display();
-
-    example.accessItem(4);
-    example.display();*/
 
     return 0;
 }
