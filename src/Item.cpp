@@ -31,6 +31,10 @@ int Item::access() {
     return value;
 }
 
+int Item::get_value() {
+    return value;
+}
+
 int Item::get_age() {
     return age;
 }

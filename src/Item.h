@@ -18,6 +18,7 @@ public:
     void assign_data(int newValue, int newAge);
     int peek();
     int access();
+    int get_value();
     int get_age();
     int get_access();
 
