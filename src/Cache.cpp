@@ -40,8 +40,8 @@ int Cache::OPTFF(const vector<int>& stream) {
     }
 
     for (int i = age; i < stream.size(); i++) {
-        if (unmatched.count(raw_cache[i].get_value())) {
-            unmatched.erase(raw_cache[i].get_value());
+        if (unmatched.count(stream[i])) {
+            unmatched.erase(stream[i]);
         }
 
         if (unmatched.size() <= 1) {
@@ -124,6 +124,7 @@ void Cache::display() {
 }
 
 void Cache::display_hit_rate() {
+    cout << "Algorithm:      " << algorithm << endl;
     cout << "Cache hits:     " << cache_hits << endl;
     cout << "Cache misses:   " << cache_misses << endl;
     if ((cache_hits + cache_misses) > 0) {
@@ -136,4 +137,12 @@ void Cache::display_hit_rate() {
     if (raw_cache.size() < cache_size) {
         cout << "This cache can hold " << cache_size - raw_cache.size() << " more items." << endl;
     }
+}
+
+int Cache::get_misses() {
+    return cache_misses;
+}
+
+string Cache::get_algorithm() {
+    return algorithm;
 }

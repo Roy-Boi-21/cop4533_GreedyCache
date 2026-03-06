@@ -141,3 +141,18 @@ tuple<int, vector<int>> generate_data() {
 
     return {cache_capacity, stream};
 }
+
+void write_to_file(vector<Cache> caches, string filename) {
+    int LEFT_SIDE_WIDTH = 6;
+
+    ofstream file(filename);
+    for (auto cache : caches) {
+        string algorithm = cache.get_algorithm();
+        file << algorithm;
+        for (int i = algorithm.size(); i < LEFT_SIDE_WIDTH; i++) {
+            file << ' ';
+        }
+        file << ": " << cache.get_misses() << endl;
+    }
+    cout << "Cache misses written to \"" << filename << "\"" << endl;
+}

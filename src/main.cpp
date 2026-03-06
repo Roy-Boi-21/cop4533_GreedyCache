@@ -4,35 +4,11 @@
 using namespace std;
 
 int main() {
-    // Ask how the user wants to input data into the program.
+    const string DIVIDER = "================================================================";
     string choice;
-    string algorithm;
+    string filename;
 
     cout << "Welcome to the Cache Simulator!" << endl;
-    /*while (true) {
-        cout << "Which replacement algorithm would you like to use?" << endl;
-        cout << "1. First-In, First-Out (FIFO)" << endl;
-        cout << "2. Least Recently Used (LRU)" << endl;
-        cout << "3. Belady's Farthest-In-Future, Optimal Offline (OPTFF)" << endl;
-        cin >> choice;
-
-        if (choice == "1") {
-            choice = "FIFO";
-        } else if (choice == "2") {
-            choice = "LRU";
-        } else if (choice == "3") {
-            choice = "OPTFF";
-        }
-
-        if ((choice == "FIFO") || (choice == "LRU") || (choice == "OPTFF")) {
-            algorithm = choice;
-            break;
-        } else {
-            cout << "Please choose a valid option." << endl;
-        }
-    }*/
-
-    choice.clear();
     while (true) {
         cout << "How will you input the data about the cache and its requests?" << endl;
         cout << "1. Manually" << endl;
@@ -45,6 +21,13 @@ int main() {
             cout << "Please choose a valid option." << endl;
         }
     }
+
+    cout << "What will be the name of the output file?" << endl;
+    cin >> filename;
+    if (filename.empty()) {
+        filename = "output.txt";
+    }
+
 
     tuple<int, vector<int>> data;
 
@@ -66,9 +49,15 @@ int main() {
         lru.access_item(item);
         optff.access_item(item, stream);
     }
+
+    cout << DIVIDER << endl;
     fifo.display_hit_rate();
     lru.display_hit_rate();
     optff.display_hit_rate();
+    cout << DIVIDER << endl;
+
+    vector<Cache> caches = {fifo, lru, optff};
+    write_to_file(caches, filename);
 
     return 0;
 }

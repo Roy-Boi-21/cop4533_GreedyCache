@@ -31,6 +31,8 @@ public:
     int access_item(int value, const vector<int>& stream = vector<int>());
     void display();
     void display_hit_rate();
+    int get_misses();
+    string get_algorithm();
 
 };
 

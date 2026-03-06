@@ -1,4 +1,4 @@
-# COP4533 Programming Assignment 1: GaleShapley
+# COP4533 Programming Assignment 2: Greedy Algorithms
 Created by David Visbal Gomez (UFID: 11497647)
 
 ## Compile Instructions
