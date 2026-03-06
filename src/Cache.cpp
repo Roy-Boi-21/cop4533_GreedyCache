@@ -31,30 +31,38 @@ int Cache::LRU() {
     return remove_index;
 }
 
-int Cache::OPTFF() {
-    throw exception();  // TODO
-}
-
-Cache::Cache(int cache_size, string algorithm) {
-    this->age = 0;
-    this->cache_size = cache_size;
-    this->cache_hits = 0;
-    this->cache_misses = 0;
-    this->algorithm = algorithm;
-    raw_cache.reserve(cache_size);
-}
-
-bool Cache::itemExists(int value) {
-    bool foundItem = false;
+int Cache::OPTFF(const vector<int>& stream) {
+    // Belady's algorithm looks ahead in the requests to see which item should be dropped.
+    int remove_index = raw_cache.size() - 1;
+    set<int> unmatched;
     for (auto item : raw_cache) {
-        if (item.peek() == value) {
-            foundItem = true;
+        unmatched.insert(item.get_value());
+    }
+
+    for (int i = age; i < stream.size(); i++) {
+        if (unmatched.count(raw_cache[i].get_value())) {
+            unmatched.erase(raw_cache[i].get_value());
+        }
+
+        if (unmatched.size() <= 1) {
+            break;
         }
     }
-    return foundItem;
+
+    if (!unmatched.empty()) {
+        int remove_number = *unmatched.begin();
+        for (int i = 0; i < raw_cache.size(); i++) {
+            Item item = raw_cache[i];
+            if (item.get_value() == remove_number) {
+                remove_index = i;
+            }
+        }
+    }
+
+    return remove_index;
 }
 
-int Cache::insertItem(int value) {
+int Cache::insert_item(int value, const vector<int>& stream) {
     if (raw_cache.size() < cache_size) {
         raw_cache.emplace_back(value, age);
         return age++;
@@ -66,7 +74,7 @@ int Cache::insertItem(int value) {
     } else if (algorithm == "LRU") {
         i = LRU();
     } else if (algorithm == "OPTFF") {
-        i = OPTFF();
+        i = OPTFF(stream);
     } else {
         throw exception();
     }
@@ -76,7 +84,16 @@ int Cache::insertItem(int value) {
     return i;
 }
 
-int Cache::accessItem(int value) {
+Cache::Cache(int cache_size, string algorithm) {
+    this->age = 0;
+    this->cache_size = cache_size;
+    this->cache_hits = 0;
+    this->cache_misses = 0;
+    this->algorithm = algorithm;
+    raw_cache.reserve(cache_size);
+}
+
+int Cache::access_item(int value, const vector<int>& stream) {
     int itemIndex = -1;
     for (int i = 0; i < raw_cache.size(); i++) {
         if (raw_cache[i].peek() == value) {
@@ -86,7 +103,7 @@ int Cache::accessItem(int value) {
     }
 
     if (itemIndex == -1) {
-        itemIndex = insertItem(value);
+        itemIndex = insert_item(value, stream);
         cache_misses++;
     }
 
@@ -103,11 +120,15 @@ void Cache::display() {
         cout << " - Last Accessed: " << current_item.get_access() << endl;
     }
 
+    cout << endl;
+}
+
+void Cache::display_hit_rate() {
     cout << "Cache hits:     " << cache_hits << endl;
     cout << "Cache misses:   " << cache_misses << endl;
     if ((cache_hits + cache_misses) > 0) {
         cout << "Cache hit rate: " << cache_hits << '/' << cache_hits + cache_misses
-        << " (" << 100.0f * (float(cache_hits) / float(cache_hits + cache_misses)) << "%)" << endl;
+             << " (" << 100.0f * (float(cache_hits) / float(cache_hits + cache_misses)) << "%)" << endl;
     } else {
         cout << "Cache hit rate not defined." << endl;
     }
@@ -115,5 +136,4 @@ void Cache::display() {
     if (raw_cache.size() < cache_size) {
         cout << "This cache can hold " << cache_size - raw_cache.size() << " more items." << endl;
     }
-    cout << endl;
 }

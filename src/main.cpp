@@ -9,9 +9,9 @@ int main() {
     string algorithm;
 
     cout << "Welcome to the Cache Simulator!" << endl;
-    while (true) {
+    /*while (true) {
         cout << "Which replacement algorithm would you like to use?" << endl;
-        cout << "1. First (FIFO)" << endl;
+        cout << "1. First-In, First-Out (FIFO)" << endl;
         cout << "2. Least Recently Used (LRU)" << endl;
         cout << "3. Belady's Farthest-In-Future, Optimal Offline (OPTFF)" << endl;
         cin >> choice;
@@ -30,7 +30,7 @@ int main() {
         } else {
             cout << "Please choose a valid option." << endl;
         }
-    }
+    }*/
 
     choice.clear();
     while (true) {
@@ -56,13 +56,19 @@ int main() {
         data = generate_data();
     }
 
-    Cache cache = Cache(get<0>(data), algorithm);
+    Cache fifo = Cache(get<0>(data), "FIFO");
+    Cache lru = Cache(get<0>(data), "LRU");
+    Cache optff = Cache(get<0>(data), "OPTFF");
     vector<int> stream = get<1>(data);
 
     for (auto item : stream) {
-        cache.accessItem(item);
+        fifo.access_item(item);
+        lru.access_item(item);
+        optff.access_item(item, stream);
     }
-    cache.display();
+    fifo.display_hit_rate();
+    lru.display_hit_rate();
+    optff.display_hit_rate();
 
     return 0;
 }

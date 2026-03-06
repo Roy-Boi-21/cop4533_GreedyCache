@@ -6,8 +6,9 @@
 #define GREEDYCACHE_CACHE_H
 
 #include "Item.h"
-#include <iostream>
+#include <set>
 #include <vector>
+#include <iostream>
 using namespace std;
 
 class Cache {
@@ -20,15 +21,16 @@ class Cache {
 
     int FIFO();
     int LRU();
-    int OPTFF();
+    int OPTFF(const vector<int>& stream);
+    int insert_item(int value, const vector<int>& stream);
 
 public:
     Cache(int cache_size, string algorithm);
 
-    bool itemExists(int value);
-    int insertItem(int value);
-    int accessItem(int value);
+    //int access_item(int value);
+    int access_item(int value, const vector<int>& stream = vector<int>());
     void display();
+    void display_hit_rate();
 
 };
 
