@@ -50,7 +50,8 @@ int Cache::OPTFF(const vector<int>& stream) {
     }
 
     if (!unmatched.empty()) {
-        int remove_number = *unmatched.begin();
+        // If there are multiple numbers in the set, evict the last number from the cache.
+        int remove_number = *(unmatched.end()--);
         for (int i = 0; i < raw_cache.size(); i++) {
             Item item = raw_cache[i];
             if (item.get_value() == remove_number) {

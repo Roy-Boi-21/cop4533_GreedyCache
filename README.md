@@ -98,10 +98,50 @@ the C++ standard set to C++ 17.
 
 ## Written Component
 ### Question 1: Empirical Comparison
-Placeholder.
+All the data for this table was created with the random
+data generator with an upper bound of 2k.  The data for
+this table can be found in the data folder.
+
+| Input File | k   | m    | FIFO | LRU  | OPTFF |
+|------------|-----|------|------|------|-------|
+| file1.txt  | 32  | 256  | 148  | 148  | 141   |
+| file2.txt  | 64  | 512  | 269  | 269  | 259   |
+| file3.txt  | 128 | 1024 | 562  | 562  | 523   |
+| file4.txt  | 256 | 2048 | 1089 | 1110 | 1042  |
+| file5.txt  | 512 | 4096 | 2270 | 2262 | 2151  |
+
+As seen in the graph, the OPTFF algorithm always has the
+least amount of cache misses compared to FIFO and LRU.
+
+FIFO and LRU are comparable in performance.  In the first
+three files, FIFO and LRU have the same amount of cache fails.
+In the last two files, FIFO and LRU alternate between having the
+most cache fails.
 
 ### Question 2: Bad Sequence for LRU or FIFO
-Placeholder.
+There is a sequence such that OPTFF incurs strictly fewer
+misses than LRU and FIFO.
+
+Consider a sequence of n * (k + 1) integers in increasing order.
+There are (k + 1) unique integers and sequence loops back to the
+first unique integer after the last unique integer was added to
+the sequence.  Take the following sequence below as an example
+for k = 3.
+
+`1 2 3 4 1 2 3 4 1 ...`
+
+This sequence exists in "optimal_optff.txt".  Here are the results
+of computing this sequence with all three algorithms.
+
+| Input File        | k  | m  | FIFO | LRU | OPTFF |
+|-------------------|----|----|------|-----|-------|
+| optimal_optff.txt | 3  | 20 | 20   | 20  | 12    |
+
+OPTFF outperformed both LRU and FIFO because LRU and FIFO kept
+throwing out their oldest item which would be useful next
+iteration while OPTFF knew to discard their newly acquired item
+because it would only be needed four iterations from now while the
+other items would be useful for all iterations prior to the fourth.
 
 ### Question 3: Prove OPTFF is Optimal
 Placeholder.
