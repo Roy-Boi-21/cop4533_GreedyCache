@@ -91,7 +91,8 @@ and misses.  Moreover, the program will create the output file
 with the name you provided in the "cmake-build-debug" folder.
 
 ## Assumptions
-Every input file must be in the "cmake-build-debug" folder for the program to read the file.
+Every input file must be in the "cmake-build-debug" folder 
+for the program to read the file.
 
 This program assumes you're running it in the CLion IDE with
 the C++ standard set to C++ 17.
@@ -144,4 +145,27 @@ because it would only be needed four iterations from now while the
 other items would be useful for all iterations prior to the fourth.
 
 ### Question 3: Prove OPTFF is Optimal
-Placeholder.
+Assume that OPTFF is not optimal.
+
+Let i_1, i_2, ..., i_n denote the evictions made by OPTFF.
+
+Let j_1, j_2, ..., j_n denote the evictions made the optimal
+algorithm (A) with i_1 = j_1, i_2 = j_2, ..., i_r = j_r where
+r is the last value where OPTFF and the optimal algorithm agree.
+
+Let i_r+1 and j_r+1 be the first eviction where OPTFF and (A)
+disagree.
+
+(A) evicts j_r+1 because it is the next request that needs to be
+accessed the latest out of all the items in the cache currently.
+
+OPTFF evicts i_r+1 because it is the next request in the cache
+that occurs farthest in the future if at all.
+
+It is valid for OPTFF to evict j_r+1 because it is the item that
+appears again the latest out of everything in the cache.
+
+Thus, we can replace i_r+1 with j_r+1.
+
+This violates the condition that r is the last value where OPTFF
+and (A) agree.  Therefore, OPTFF is optimal.
